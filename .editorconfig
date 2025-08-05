@@ -1,0 +1,16 @@
+[*.cs]
+
+# Default severity for all analyzer diagnostics
+dotnet_analyzer_diagnostic.severity = error
+
+# IDE0058: Expression value is never used
+dotnet_diagnostic.IDE0058.severity = silent
+
+# IDE0060: Remove unused parameter
+dotnet_code_quality_unused_parameters = non_public
+
+# IDE0052: Remove unread private members
+dotnet_diagnostic.IDE0052.severity = silent
+
+# Turn off warning for using 'var'
+csharp_style_var_elsewhere = true:silent

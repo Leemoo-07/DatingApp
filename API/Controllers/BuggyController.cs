@@ -31,10 +31,10 @@ namespace API.Controllers
         [HttpGet("server-error")]
         public ActionResult<String> GetServerError()
         {
-            return StatusCode(500, "This is a server error example");
-            // var thing = _context.Users.Find(-1);
-            // var thingToReturn = thing.ToString();
-            // return thingToReturn;
+            // StatusCode(500, "This is a server error example");
+            var thing = _context.Users.Find(-1);
+            var thingToReturn = thing.ToString();
+            return thingToReturn;
         }
         [HttpGet("bad-request")]
         public ActionResult<string> GetBadRequest()

@@ -47,22 +47,24 @@ namespace API.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
-            var user = await _context.Users.SingleOrDefaultAsync(x => x.UserName == loginDto.UserName);
+            if (string.IsNullOrWhiteSpace(loginDto.UserName) || string.IsNullOrWhiteSpace(loginDto.Password))
+                return Unauthorized("Username and password are required");
+
+            var user = await _context.Users
+                .SingleOrDefaultAsync(x => x.UserName == loginDto.UserName.ToLower());
+
             if (user == null)
-            {
                 return Unauthorized("Invalid username");
-            }
+
             using var hmac = new HMACSHA512(user.PasswordSalt);
+            var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDto.Password));
 
-            var computedhash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDto.Password));
-
-            for (int i = 0; i < computedhash.Length; i++)
+            for (int i = 0; i < computedHash.Length; i++)
             {
-                if (computedhash[i] != user.PasswordHash[i])
-                {
-                    return Unauthorized("Invalid Password");
-                }
+                if (computedHash[i] != user.PasswordHash[i])
+                    return Unauthorized("Invalid password");
             }
+
             return new UserDto
             {
                 Username = user.UserName,

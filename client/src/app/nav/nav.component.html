@@ -30,7 +30,7 @@
 
         <form *ngIf="(accountservice.currentUser$| async) === null" #modelform="ngForm" class="form-inline mt-2 mt-md-0"
             (ngSubmit)="login()" autocomplete="off">
-            <input name="Username" [(ngModel)]="model.Username" class="form-control mr-sm-2" type="text"
+            <input name="Username" [(ngModel)]="model.UserName" class="form-control mr-sm-2" type="text"
                 placeholder="Username">
             <input name="Password" [(ngModel)]="model.Password" class="form-control mr-sm-2" type="password"
                 placeholder="Password">

@@ -12,16 +12,22 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class NavComponent implements OnInit {
   model: any = {};
-  constructor(public accountservice: AccountService ,private router:Router,
-    private toastr:ToastrService) { }
+  constructor(public accountservice: AccountService, private router: Router,
+    private toastr: ToastrService) { }
 
   ngOnInit(): void {
   }
   login() {
-    this.accountservice.login(this.model).subscribe(Response => {
-      this.router.navigateByUrl('/members');
-    }) 
+    console.log('Payload:', this.model);  // 👈 add this
+    this.accountservice.login(this.model).subscribe({
+      next: () => this.router.navigateByUrl('/members'),
+      error: err => {
+        console.error('Login failed:', err);
+        this.toastr.error(err.error);  // show backend message
+      }
+    });
   }
+
 
   logout() {
     this.accountservice.logout();

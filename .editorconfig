@@ -31,3 +31,6 @@ dotnet_diagnostic.IDE0011.severity = silent
 
 # IDE0059: Unnecessary assignment of a value
 dotnet_diagnostic.IDE0059.severity = silent
+
+# IDE0007: Use implicit type
+dotnet_diagnostic.IDE0007.severity = silent

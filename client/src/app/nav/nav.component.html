@@ -21,7 +21,7 @@
             <a href="#" dropdownToggle class="dropdown-toggle text-light" (click)="$event.preventDefault()">Welcome
                 {{user.username |titlecase}}</a>
             <ul *dropdownMenu class="dropdown-menu" mt-3>
-                <li><a href="#" (click)="$event.preventDefault()" class="dropdown-item">Edit Profile</a></li>
+                <li><a href="#" routerLink="/member/edit" class="dropdown-item">Edit Profile</a></li>
                 <li class="dropdown-divider"></li>
                 <li><a href="#" (click)="logout(); $event.preventDefault()" class="dropdown-item">Logout</a></li>
             </ul>

@@ -6,6 +6,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using API.Extensions;
 using API.Middleware;
+using API.Interfaces;
+using API.Services;
 
 namespace API
 {
@@ -21,6 +23,7 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddApplicationServices(_config);
+            services.AddScoped<IPhotoService, PhotoService>();
             services.AddCors();
             services.AddIdentityServices(_config);
             services.AddControllers();

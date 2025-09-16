@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -47,11 +48,12 @@ namespace API.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
-            if (string.IsNullOrWhiteSpace(loginDto.UserName) || string.IsNullOrWhiteSpace(loginDto.Password))
+            if (string.IsNullOrWhiteSpace(loginDto.Username) || string.IsNullOrWhiteSpace(loginDto.Password))
                 return Unauthorized("Username and password are required");
 
             var user = await _context.Users
-                .SingleOrDefaultAsync(x => x.UserName == loginDto.UserName.ToLower());
+               .Include(p => p.Photos)
+                .SingleOrDefaultAsync(x => x.UserName == loginDto.Username.ToLower());
 
             if (user == null)
                 return Unauthorized("Invalid username");
@@ -68,12 +70,13 @@ namespace API.Controllers
             return new UserDto
             {
                 Username = user.UserName,
-                Token = _tokenService.CreateToken(user)
+                Token = _tokenService.CreateToken(user),
+                PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url,
             };
         }
-        private async Task<bool> UserExists(string username)
+        private async Task<bool> UserExists(string Username)
         {
-            return await _context.Users.AnyAsync(x => x.UserName == username.ToLowerInvariant());
+            return await _context.Users.AnyAsync(x => x.UserName == Username.ToLowerInvariant());
         }
     }
 }
